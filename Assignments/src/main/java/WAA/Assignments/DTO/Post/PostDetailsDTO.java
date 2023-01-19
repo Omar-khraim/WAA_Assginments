@@ -1,4 +1,4 @@
-package WAA.Assignments.Domain;
+package WAA.Assignments.DTO.Post;
 
 import lombok.Getter;
 import lombok.Setter;

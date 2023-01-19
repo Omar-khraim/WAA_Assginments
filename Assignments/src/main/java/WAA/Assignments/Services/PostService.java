@@ -1,6 +1,6 @@
 package WAA.Assignments.Services;
 
-import WAA.Assignments.DTO.PostDTO;
+import WAA.Assignments.DTO.Post.PostDTO;
 import WAA.Assignments.Domain.Post;
 
 import java.util.List;
@@ -12,6 +12,6 @@ public interface PostService {
 
     void delete(long id);
 
-    void update(long id ,  PostDTO post);
+    void update( PostDTO post);
 
 }

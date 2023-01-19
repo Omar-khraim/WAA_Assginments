@@ -1,14 +1,12 @@
 package WAA.Assignments.Services.Impl;
 
-import WAA.Assignments.DTO.PostDTO;
+import WAA.Assignments.DTO.Post.PostDTO;
 import WAA.Assignments.Domain.Post;
-import WAA.Assignments.Reposotory.impl.PostRepoImpl;
+import WAA.Assignments.Reposotory.PostRepo;
 import WAA.Assignments.Services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +18,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     ModelMapper modelMapper;
     @Autowired
-    PostRepoImpl postRepo;
+    PostRepo postRepo;
 
     @Override
     public List<PostDTO> findAll() {
@@ -29,22 +27,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO findById(long id) {
-        return modelMapper.map(postRepo.findById(id), PostDTO.class);
+        return modelMapper.map(postRepo.findById(id).get(), PostDTO.class);
     }
 
     @Override
     public void addPost(Post post) {
-        postRepo.addPost(post);
+        postRepo.save(post);
     }
 
     @Override
     public void delete(long id) {
-        postRepo.delete(id);
+        postRepo.deleteById(id);
     }
 
     @Override
-    public void update(long id, PostDTO post) {
-        postRepo.update(id, modelMapper.map(post , Post.class ));
+    public void update(PostDTO post) {
+        postRepo.save( modelMapper.map(post , Post.class ));
     }
 
 

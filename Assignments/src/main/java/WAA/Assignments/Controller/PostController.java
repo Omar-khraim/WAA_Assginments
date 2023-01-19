@@ -1,6 +1,6 @@
 package WAA.Assignments.Controller;
 
-import WAA.Assignments.DTO.PostDTO;
+import WAA.Assignments.DTO.Post.PostDTO;
 import WAA.Assignments.Domain.Post;
 import WAA.Assignments.Services.Impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class PostController {
         postService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public void update(@PathVariable long id , @RequestBody PostDTO post){
-        postService.update(id , post);
+    @PutMapping
+    public void update(@RequestBody PostDTO post){
+        postService.update( post);
     }
 }
