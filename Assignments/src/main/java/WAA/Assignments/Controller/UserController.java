@@ -1,12 +1,15 @@
 package WAA.Assignments.Controller;
 
 
+import WAA.Assignments.Annotation.ExecutionTime;
 import WAA.Assignments.DTO.Post.PostDTO;
 import WAA.Assignments.DTO.User.UserDTO;
 import WAA.Assignments.Services.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,37 +25,38 @@ public class UserController {
     }
 
     @GetMapping
-    List<UserDTO> findAll(){
+    List<UserDTO> findAll() {
         return userService.findAll();
     }
 
+    @ExecutionTime
     @GetMapping("/{id}")
-    UserDTO findById(@PathVariable long id){
+    UserDTO findById(@PathVariable long id) {
         return userService.findById(id);
     }
 
     @PutMapping
-    public void update(UserDTO user){
+    public void update(UserDTO user) {
         userService.save(user);
     }
 
     @PostMapping
-    public void addUser(UserDTO user){
+    public void addUser(UserDTO user) {
         userService.save(user);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id ){
+    public void delete(@PathVariable long id) {
         userService.deleteById(id);
     }
 
     @GetMapping("/{id}/posts")
-    public List<PostDTO> userPosts(@PathVariable long id ){
+    public List<PostDTO> userPosts(@PathVariable long id) {
         return userService.getUserPosts(id);
     }
 
     @GetMapping("/postcoutn/{count}")
-    List<UserDTO> getUsersWithPostNum (@PathVariable int count ){
+    List<UserDTO> getUsersWithPostNum(@PathVariable int count) {
         return userService.findAllByPostsGreaterThanEqual(count);
     }
 }
