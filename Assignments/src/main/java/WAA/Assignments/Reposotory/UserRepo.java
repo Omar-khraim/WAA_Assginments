@@ -1,10 +1,9 @@
 package WAA.Assignments.Reposotory;
 
 import WAA.Assignments.Domain.Post;
-import WAA.Assignments.Domain.User;
+import WAA.Assignments.Domain.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,20 +11,21 @@ import java.util.Optional;
 
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<Users, Long> {
 
-    @Override
-    List<User> findAll();
+    List<Users> findAll();
 
-    @Override
-    Optional<User> findById(Long aLong);
+    Optional<Users> findById(Long aLong);
 
-    @Override
     void deleteById(Long aLong);
 
-    User save(User user);
 
+    @Query("Select u.posts from  Users  u where u.id = :id")
+    List<Post> findUserPosts(long id);
 
-    @Query("Select u.posts from  User  u where u.id = :id")
-    List<Post>  findUserPosts(long id);
+    @Override
+    boolean existsById(Long aLong);
+
+    @Query("select u from Users u where size(u.posts) >= :num")
+    List<Users> findUsersWithPosts(int num);
 }

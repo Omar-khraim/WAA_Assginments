@@ -1,26 +1,24 @@
 package WAA.Assignments.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+@NoArgsConstructor
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String title;
-    String content;
-    String author;
+    String name;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    List<Comment> comments;
-
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    Post post;
 }

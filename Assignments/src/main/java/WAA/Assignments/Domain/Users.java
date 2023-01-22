@@ -1,5 +1,7 @@
 package WAA.Assignments.Domain;
 
+//import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +13,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String title;
-    String content;
-    String author;
+    String name;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    List<Comment> comments;
-
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
+    private List<Post> posts;
 }

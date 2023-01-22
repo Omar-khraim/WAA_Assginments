@@ -8,17 +8,31 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
+    final
     ModelMapper modelMapper;
-    @Autowired
+    final
     PostRepo postRepo;
+    final EntityManager entityManager;
+
+    public PostServiceImpl(ModelMapper modelMapper, PostRepo postRepo, EntityManager entityManager) {
+        this.modelMapper = modelMapper;
+        this.postRepo = postRepo;
+        this.entityManager = entityManager;
+    }
 
     @Override
     public List<PostDTO> findAll() {
@@ -42,7 +56,27 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void update(PostDTO post) {
-        postRepo.save( modelMapper.map(post , Post.class ));
+        postRepo.save(modelMapper.map(post, Post.class));
+    }
+
+    @Override
+    public List<PostDTO> filter(Optional<String> title, Optional<Integer> id) {
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Post> cq = cb.createQuery(Post.class);
+        Root<Post> root = cq.from(Post.class);
+
+        List<Predicate> searchCriteria = new ArrayList<>();
+
+        if(title.isPresent()){
+            searchCriteria.add(cb.like(root.get("title"), "%"+title.get()+"%"));
+        }
+        if (id.isPresent()){
+            searchCriteria.add(cb.equal(root.get("id"), id.get()));
+        }
+        cq.select(root).where(cb.and(searchCriteria.toArray(new Predicate[searchCriteria.size()])));
+
+        return Arrays.asList( modelMapper.map( entityManager.createQuery(cq).getResultList() , PostDTO[].class));
     }
 
 

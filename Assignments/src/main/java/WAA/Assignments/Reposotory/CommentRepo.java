@@ -1,6 +1,6 @@
 package WAA.Assignments.Reposotory;
 
-import WAA.Assignments.Domain.Post;
+import WAA.Assignments.Domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,22 +8,19 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
-public interface PostRepo extends JpaRepository<Post, Long> {
-
-    List<Post> findAll();
+public interface CommentRepo extends JpaRepository<Comment, Long> {
+    @Override
+    List<Comment> findAll();
 
     @Override
-    Optional<Post> findById(Long aLong);
+    Optional<Comment> findById(Long aLong);
 
-    void deleteById(long id);
+    @Override
+    Comment save(Comment comment);
 
-    Post save(Post post);
-
-//    List<Post> getAllByUser(long id);
-
-    List<Post> findAllByTitleContaining(String title);
+    @Override
+    void deleteById(Long id);
 
     @Override
     boolean existsById(Long id);

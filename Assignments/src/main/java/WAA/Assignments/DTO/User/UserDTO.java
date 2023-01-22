@@ -1,8 +1,6 @@
 package WAA.Assignments.DTO.User;
 
 import WAA.Assignments.Domain.Post;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 

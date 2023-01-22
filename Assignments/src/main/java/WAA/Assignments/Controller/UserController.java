@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    @Autowired
+    final
     UserServiceImpl userService;
+
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     List<UserDTO> findAll(){
@@ -45,6 +49,11 @@ public class UserController {
     @GetMapping("/{id}/posts")
     public List<PostDTO> userPosts(@PathVariable long id ){
         return userService.getUserPosts(id);
+    }
+
+    @GetMapping("/postcoutn/{count}")
+    List<UserDTO> getUsersWithPostNum (@PathVariable int count ){
+        return userService.findAllByPostsGreaterThanEqual(count);
     }
 }
 

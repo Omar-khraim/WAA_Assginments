@@ -2,10 +2,9 @@ package WAA.Assignments.Services;
 
 import WAA.Assignments.DTO.Post.PostDTO;
 import WAA.Assignments.DTO.User.UserDTO;
-import WAA.Assignments.Domain.User;
+import WAA.Assignments.Domain.Users;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -20,5 +19,6 @@ public interface UserService {
 
     List<PostDTO> getUserPosts(long id);
 
+    List<UserDTO> findAllByPostsGreaterThanEqual(int count);
 
 }
