@@ -1,11 +1,12 @@
 package WAA.Assignments.Domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
-import javax.persistence.*;
 
 @Entity
 @Data
@@ -18,7 +19,8 @@ public class Comment {
     long id;
     String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonBackReference
+    @BatchSize(size = 2)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     Post post;
 }
